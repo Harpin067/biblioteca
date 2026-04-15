@@ -1,0 +1,278 @@
+{
+  "info": {
+    "name": "Biblioteca API",
+    "description": "Colección de pruebas para la API de Biblioteca Digital (Node.js + Express + PostgreSQL, esquema `biblioteca`).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_postman_id": "b1b11071-0000-4000-8000-biblioteca0001"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:3000" },
+    { "key": "autorId", "value": "1" },
+    { "key": "categoriaId", "value": "1" },
+    { "key": "libroId", "value": "1" }
+  ],
+  "item": [
+    {
+      "name": "Health",
+      "item": [
+        {
+          "name": "GET / (health check)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/", "host": ["{{baseUrl}}"], "path": [""] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Autores",
+      "item": [
+        {
+          "name": "GET all autores",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/autores", "host": ["{{baseUrl}}"], "path": ["autores"] }
+          }
+        },
+        {
+          "name": "GET autor by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/autores/{{autorId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["autores", "{{autorId}}"]
+            }
+          }
+        },
+        {
+          "name": "POST crear autor",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "  const json = pm.response.json();",
+                  "  if (json.id_autor) pm.collectionVariables.set('autorId', json.id_autor);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Gabriel García Márquez\",\n  \"nacionalidad\": \"Colombiana\",\n  \"biografia\": \"Escritor colombiano, Premio Nobel de Literatura 1982.\",\n  \"correo\": \"ggm@correo.com\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/autores", "host": ["{{baseUrl}}"], "path": ["autores"] }
+          }
+        },
+        {
+          "name": "PUT actualizar autor",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Gabriel García Márquez\",\n  \"nacionalidad\": \"Colombiana\",\n  \"biografia\": \"Biografía actualizada desde Postman.\",\n  \"correo\": \"ggm.actualizado@correo.com\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/autores/{{autorId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["autores", "{{autorId}}"]
+            }
+          }
+        },
+        {
+          "name": "DELETE autor",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/autores/{{autorId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["autores", "{{autorId}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Categorías",
+      "item": [
+        {
+          "name": "GET all categorias",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/categorias", "host": ["{{baseUrl}}"], "path": ["categorias"] }
+          }
+        },
+        {
+          "name": "GET categoria by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/categorias/{{categoriaId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["categorias", "{{categoriaId}}"]
+            }
+          }
+        },
+        {
+          "name": "POST crear categoria",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "  const json = pm.response.json();",
+                  "  if (json.id_categoria) pm.collectionVariables.set('categoriaId', json.id_categoria);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre_categoria\": \"Novela\",\n  \"clasificacion\": \"Ficción\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/categorias", "host": ["{{baseUrl}}"], "path": ["categorias"] }
+          }
+        },
+        {
+          "name": "PUT actualizar categoria",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre_categoria\": \"Novela contemporánea\",\n  \"clasificacion\": \"Ficción\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/categorias/{{categoriaId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["categorias", "{{categoriaId}}"]
+            }
+          }
+        },
+        {
+          "name": "DELETE categoria",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/categorias/{{categoriaId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["categorias", "{{categoriaId}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Libros",
+      "item": [
+        {
+          "name": "GET all libros",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/libros", "host": ["{{baseUrl}}"], "path": ["libros"] }
+          }
+        },
+        {
+          "name": "GET libro by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/libros/{{libroId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["libros", "{{libroId}}"]
+            }
+          }
+        },
+        {
+          "name": "GET buscar por título",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/libros/buscarPorTitulo/soledad",
+              "host": ["{{baseUrl}}"],
+              "path": ["libros", "buscarPorTitulo", "soledad"]
+            }
+          }
+        },
+        {
+          "name": "POST crear libro",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "  const json = pm.response.json();",
+                  "  if (json.id_libro) pm.collectionVariables.set('libroId', json.id_libro);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"titulo\": \"Cien años de soledad\",\n  \"anio_publicacion\": 1967,\n  \"autor_id\": {{autorId}},\n  \"categoria_id\": {{categoriaId}},\n  \"resumen\": \"Saga de la familia Buendía en Macondo.\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/libros", "host": ["{{baseUrl}}"], "path": ["libros"] }
+          }
+        },
+        {
+          "name": "PUT actualizar libro",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"titulo\": \"Cien años de soledad - Edición conmemorativa\",\n  \"anio_publicacion\": 2007,\n  \"autor_id\": {{autorId}},\n  \"categoria_id\": {{categoriaId}},\n  \"resumen\": \"Edición especial publicada por la RAE.\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/libros/{{libroId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["libros", "{{libroId}}"]
+            }
+          }
+        },
+        {
+          "name": "DELETE libro",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/libros/{{libroId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["libros", "{{libroId}}"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
